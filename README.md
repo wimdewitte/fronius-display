@@ -5,51 +5,51 @@
 
 <a href="https://buymeacoffee.com/alpi_brv"><img src="docs/images/coffee.png" alt="Buy me a coffee" width="200"></a>
 
-Eigenständiges Touch-Display für **Fronius-Wechselrichter** (getestet: Symo GEN24) –
-auf einem günstigen ESP32-S3-Display, ohne ioBroker, Home Assistant oder Server.
-Das Display holt sich die Werte per WLAN direkt vom Wechselrichter (Fronius Solar API).
+Standalone touch display for **Fronius inverters** (tested: Symo GEN24) –
+run on a cheap ESP32-S3 display, without ioBroker, Home Assistant, or a server.
+The display fetches values directly from the inverter via Wi‑Fi using the Fronius Solar API.
 
-> **Kein offizielles Produkt von Fronius.** Bei Fragen zum Display bitte hier im
-> Repository ein Issue anlegen, nicht bei Fronius. Nutzung auf eigene Gefahr.
+> **Not an official Fronius product.** For questions about the display, please open an issue in this
+> repository, not with Fronius. Use at your own risk.
 
-💬 **Diskussion:** [Thread im Photovoltaikforum](https://www.photovoltaikforum.com/thread/265604-eigenst%C3%A4ndiges-touch-display-f%C3%BCr-fronius-gen24-open-source-ohne-server/)
+💬 **Discussion:** [Thread in the photovoltaic forum](https://www.photovoltaikforum.com/thread/265604-eigenst%C3%A4ndiges-touch-display-f%C3%BCr-fronius-gen24-open-source-ohne-server/)
 
-> **Status: 0.1.x – erste Testversionen.** Läuft auf dem 5" an einem Symo GEN24 mit
-> BYD-Batterie und zusätzlichem Hoymiles-Wechselrichter.
+> **Status: 0.1.x – first test versions.** Runs on the 5" on a Symo GEN24 with a
+> BYD battery and an additional Hoymiles inverter.
 
 ## Installation
 
-1. Display per USB-C anschließen.
-2. **[Web-Installer öffnen](https://alpi-brv.github.io/fronius-display/)** in Chrome oder Edge.
-3. Den Knopf für **deine Größe** klicken (5" oder 7"), Anschluss wählen – fertig.
+1. Connect the display via USB-C.
+2. Open the **[web installer](https://alpi-brv.github.io/fronius-display/)** in Chrome or Edge.
+3. Click the button for **your size** (5" or 7"), choose the connection, and you're done.
 
-Danach öffnet das Display die Einstellungen: WLAN wählen, im Reiter **Fronius** die IP
-des Wechselrichters eintragen, *Speichern*.
+After that, the display opens the settings: select Wi‑Fi, enter the inverter IP in the **Fronius** tab,
+then click **Save**.
 
-## Bilder
+## Images
 
-![Energiefluss](docs/images/energiefluss.jpg)
+![Energy flow](docs/images/energiefluss.jpg)
 
-*Startseite auf dem 5" – Energiefluss und Tageswerte*
+*Home screen on the 5" – energy flow and daily values*
 
-| Photovoltaik | Netz mit Phasen |
+| Photovoltaics | Grid with phases |
 |---|---|
-| ![Photovoltaik](docs/images/pv.jpg) | ![Netz](docs/images/netz.jpg) |
+| ![Photovoltaics](docs/images/pv.jpg) | ![Grid](docs/images/netz.jpg) |
 
-| Batterie | Verbraucher |
+| Battery | Consumers |
 |---|---|
-| ![Batterie](docs/images/batterie.jpg) | ![Verbraucher](docs/images/verbraucher.jpg) |
+| ![Battery](docs/images/batterie.jpg) | ![Consumers](docs/images/verbraucher.jpg) |
 
 <details>
-<summary>Einstellungen (Bilder)</summary>
+<summary>Settings (images)</summary>
 
-| Fronius | WLAN |
+| Fronius | Wi‑Fi |
 |---|---|
-| ![Einstellungen Fronius](docs/images/einstellungen-fronius.jpg) | ![WLAN](docs/images/wlan.jpg) |
+| ![Fronius settings](docs/images/einstellungen-fronius.jpg) | ![Wi‑Fi](docs/images/wlan.jpg) |
 
-| IP | Anzeige |
+| IP | Display |
 |---|---|
-| ![IP](docs/images/ip.jpg) | ![Anzeige](docs/images/anzeige.jpg) |
+| ![IP](docs/images/ip.jpg) | ![Display](docs/images/anzeige.jpg) |
 
 | System | |
 |---|---|
@@ -57,148 +57,38 @@ des Wechselrichters eintragen, *Speichern*.
 
 </details>
 
-## Funktionen
+## Features
 
-- **Energiefluss** wie in Solar.web: PV, Verbraucher, Netz und Batterie als Segmentringe
-  um den Wechselrichter; Pfeile (oder auf Wunsch laufende Punkte) zeigen die Flussrichtung
-- **Antippen öffnet Details:**
-  - PV – Aufteilung je Wechselrichter (z. B. GEN24 + zusätzlicher Wechselrichter
-    über Fronius Smart Meter), später Strings über Modbus
-  - Netz – Phasen L1–L3 mit Spannung, Strom, Leistung, Frequenz
-  - Batterie – Ladestand, Lade-/Entladeleistung, noch entnehmbare Energie, „leer in ca. …“ /
-    „voll in ca. …“. Beim GEN24 werden Entladegrenze (min_soc) und Zustand der Batterie (SOH)
-    automatisch berücksichtigt: nutzbar = Kapazität × SOH × (Ladestand − Entladegrenze)
-  - Verbraucher – Haus, später Wallbox (Wattpilot) und Heizstab (Ohmpilot) getrennt
-- **Tageswerte:** PV-Ertrag, Verbrauch, Netzbezug, Einspeisung, Batterie geladen,
-  Autarkie, Eigenverbrauch – aus den Zählerständen selbst berechnet
-  (der GEN24 liefert keine Tageswerte)
-- **Ausrichtung wählbar:** USB-Anschluss links oder rechts (Drehung um 180°) –
-  wirkt sofort, Bild und Touch drehen sich mit
-- **Einrichtung komplett am Display:** WLAN, feste IP oder DHCP, IP des Wechselrichters,
-  PV-Leistung (kWp, Vollausschlag des PV-Rings), Batteriekapazität (für die Restzeit; ein
-  eingetragener Wert hat Vorrang vor dem vom Speicher gemeldeten, z. B. bei geänderter
-  BMS-Parametertabelle)
-- **Updates über WLAN** und Installation im Browser – wie beim
-  [Violet Pool-Display](https://github.com/AlPi-BRV/violet-display)
-- Nach 5 Minuten ohne Berührung wahlweise abdimmen oder ganz schwarz (Einstellungen → Helligkeit & Kontrast); bei einer Störung bleibt das Fehlerbild gedimmt sichtbar. Detail- und Einstellungsseiten schließen sich nach 1 Minute
-- **Nachtschaltung:** in einem Zeitfenster (z. B. 0:00–6:30 Uhr) höchstens 10 % oder 20 % Helligkeit
-  oder ganz aus (Einstellungen → System → Nachtschaltung). Bei „Aus“ leuchtet das Display nach
-  Berührung mit 20 % auf
-- **Netzladung:** Wird die Batterie auch aus dem Netz geladen (z. B. nachts mit dynamischem Tarif
-  oder bei einer Zwangsladung), unter Einstellungen → Anzeige → Netzladung „Ja“ wählen. Dann zählt
-  die Ladung aus dem Netz nicht als Hausverbrauch, und die Autarkie wird ohne den Netzstrom für die
-  Batterie gerechnet. Auf der Netz-Seite steht zusätzlich „davon in die Batterie“
-- **Störungen auf einen Blick:** Ist das WLAN weg, erscheint ein großes durchgestrichenes WLAN-Symbol,
-  antwortet der Wechselrichter nicht, das durchgestrichene Wechselrichter-Symbol. Veraltete Werte werden
-  so lange ausgeblendet. Das Display verbindet sich selbst neu – auch wenn der Router nach einem
-  Stromausfall später hochfährt.
+- **Energy flow** as in Solar.web: PV, consumers, grid, and battery as segmented rings
+  around the inverter; arrows (or moving dots on request) show the direction of flow
+- **Tap opens details:**
+  - PV – split by inverter (e.g. GEN24 + additional inverter via Fronius Smart Meter), later strings via Modbus
+  - Grid – phases L1–L3 with voltage, current, power, frequency
+  - Battery – state of charge, charge/discharge power, energy still available, “empty in approx …” /
+    “full in approx …”. On the GEN24, discharge limit (min_soc) and battery state (SOH)
+    are automatically considered: usable = capacity × SOH × (charge level − discharge limit)
+  - Consumers – home, later Wallbox (Wattpilot) and electric heating element (Ohmpilot) separately
+- **Daily values:** PV yield, consumption, grid import, feed-in, battery charging,
+  self-sufficiency, own consumption – calculated from meter readings themselves
+  (the GEN24 provides no daily values)
+- **Orientation selectable:** USB connection left or right (rotation by 180°) –
+  takes effect immediately, image and touch rotate together
+- **Setup fully on the display:** Wi‑Fi, fixed IP or DHCP, inverter IP,
+  PV power (kWp, ring overshoot), battery capacity (for the remaining time; a value entered here takes precedence over the storage-reported one, e.g. after changing the BMS parameter table)
+- **Updates over Wi‑Fi** and installation in the browser – as with the
+  [Violet Pool Display](https://github.com/AlPi-BRV/violet-display)
+- After 5 minutes without touch input, optionally dim or go fully black (Settings → Brightness & Contrast); on a fault, the error screen remains dimly visible. Details and settings remain accessible.
+- **Night mode:** in a time window (e.g. 00:00–06:30) at most 10% or 20% brightness
+  or fully off (Settings → System → Night mode). When set to Off, the display lights up at 20% after touch.
+- **Grid charging:** If the battery is also charged from the grid (e.g. at night with dynamic tariffs
+  or forced charging), choose “Yes” under Settings → Display → Grid charging. Then the charge from the grid is not counted as household consumption, and self-sufficiency is calculated without grid power for the battery. On the grid page, “into the battery” is shown additionally.
+- **Faults at a glance:** If Wi‑Fi disappears, a large crossed-out Wi‑Fi symbol appears,
+  and if the inverter does not respond, the crossed-out inverter symbol appears. Outdated values remain hidden for as long as needed. The display reconnects automatically, even if the router comes back later after a power outage.
 
-### Geplant
+### Planned
 
-- Statistik für Tag, Monat, Jahr; optional mit **SD-Karte** auch Tagesverläufe
-- Strings (MPPT) über Modbus TCP
-- Wallbox (Wattpilot) mit eigener Abfrage
-
-### Bewusst nicht geplant
-
-Einbindung weiterer Geräte (Tasmota, Shelly, Lesekopf …), Wetter, Prognosen, Cloud-Dienste.
-Das Display spricht nur mit dem Fronius-Wechselrichter – dafür ohne Server und ohne Internet
-für den Betrieb.
-
-## Wie die Tageswerte entstehen
-
-Der GEN24 liefert keine Tageswerte (`E_Day` ist leer). Das Display rechnet selbst:
-
-| Wert | Quelle | Genauigkeit |
-|---|---|---|
-| Netzbezug, Einspeisung | Zählerstände des Smart Meters am Netzanschluss | genau |
-| Weitere Wechselrichter (z. B. Hoymiles) | Zählerstand ihres Smart Meters | genau |
-| Verbrauch, Autarkie | Zähler: Wechselrichter + weitere WR + Bezug − Einspeisung | genau |
-| PV des Fronius, Batterie geladen/entladen | Leistung × Zeit, solange das Display läuft | Näherung |
-| Netzladung der Batterie (nur bei „Netzladung: Ja“) | Leistung × Zeit, solange das Display läuft | Näherung |
-
-Die Stände des Tagesbeginns werden alle 5 Minuten im Flash gesichert und überstehen
-Stromausfall, Neustart und Updates. Die zählerbasierten Werte stimmen auch, wenn das
-Display zwischendurch aus war; bei den Näherungswerten fehlt die Zeit ohne Strom.
-Startet das Display mitten am Tag zum ersten Mal, zeigt „Heute“ die Werte *seit* dieser Uhrzeit.
-
-## Voraussetzungen am Wechselrichter
-
-Im Webinterface des Wechselrichters muss die **Solar API** eingeschaltet sein
-(Kommunikation → Solar API). Test im Browser:
-
-```
-http://<IP-des-Wechselrichters>/solar_api/v1/GetPowerFlowRealtimeData.fcgi
-```
-
-Erscheint dort JSON, ist alles bereit.
-
-## Bedienung
-
-- **Kreis antippen** → Details (PV, Verbraucher, Netz mit Phasen L1–L3, Batterie mit Restzeit)
-- **Tageswerte antippen** → Details Verbraucher
-- **Zahnrad** oder Kopfzeile 2 Sekunden halten → Einstellungen
-- Auf einer Detailseite irgendwohin tippen → zurück
-
-| Reiter | Inhalt |
-|---|---|
-| Fronius | IP des Wechselrichters, PV-Leistung (kWp), Batterie (kWh), *Verbindung testen* |
-| WLAN | Netz suchen und wählen, WLAN-Passwort |
-| IP | Automatisch (DHCP) oder feste IP |
-| Anzeige | Ausrichtung (normal / 180° gedreht), Flussrichtung als Pfeile oder laufende Punkte, Netzladung der Batterie Nein/Ja |
-| System | Abfrageintervall (2 s bis 1 min), Update, Helligkeit & Kontrast, Nachtschaltung, Werkseinstellungen |
-
-## Hardware
-
-| | |
-|---|---|
-| Display | **Elecrow CrowPanel ESP32 5.0"**, SKU **DIS07050H**, Board-Revision **V3.0**<br>oder **Elecrow CrowPanel ESP32 7.0"**, SKU **DIS08070H**, Board-Revision **V3.0** |
-| Chip | ESP32-S3-WROOM-1-N4R8 (4 MB Flash, 8 MB PSRAM) |
-| Auflösung | 800 × 480, kapazitiver Touch |
-
-> **Kaufempfehlung: das 5".** Das 7" (DIS08070H) läuft zwar mit derselben Firmware, sein Panel
-> ist im Vergleich aber deutlich schwächer: Das Bild wirkt flau und dunkler, und der Blickwinkel
-> ist eng – schon leicht von der Seite oder von oben verblassen die Farben. Die Einstellung
-> *Kontrast* mildert das etwas, behebt es aber nicht. Wer das Display an der Wand oder schräg im
-> Blick hat, ist mit dem 5" besser bedient.
-
-> **Touch reagiert nicht (vor allem beim 7")?** Prüfen, ob das Flachbandkabel des Touch-Panels
-> auf der Platine richtig im Stecker sitzt und die Verriegelung geschlossen ist. Ein nicht ganz
-> verriegeltes Kabel ist eine bekannte Ursache dafür, dass das Bild läuft, der Touch aber nicht
-> (Danke für den Hinweis aus dem Photovoltaikforum).
-
-Beide Größen brauchen **jeweils eigene Firmware** – jede Datei trägt die Größe im Namen
-(`fronius-display-5zoll-…` / `fronius-display-7zoll-…`).
-
-### Anderes Display?
-
-Du hast ein anderes ESP32-Display – eine andere CrowPanel-Größe, die „Advance“-Reihe,
-eine ältere Board-Revision oder ein Display eines anderen Herstellers – und möchtest die
-Firmware darauf nutzen? Dann leg bitte ein **[Issue](https://github.com/AlPi-BRV/fronius-display/issues/new?template=anderes-display.yml)**
-an und häng ein **Foto der Rückseite der Platine** an. Gut lesbar sollten sein:
-
-- Aufdruck mit **Modell / SKU** und **Board-Revision** (z. B. „V3.0“)
-- der **Chip** (z. B. „ESP32-S3-WROOM-1-N4R8“)
-- die **Steckverbinder** und **Taster** (USB, BOOT, RESET, SD-Karte)
-
-Dazu der **Link zum Produkt** (Shop oder Hersteller-Wiki). Damit lässt sich meist abschätzen,
-ob das Display passt und was angepasst werden müsste.
-
-## Selbst bauen (PlatformIO)
-
-Wie beim Pool-Display: Ordner in VS Code mit PlatformIO öffnen, unten die Umgebung
-**`env:crowpanel5`** oder **`env:crowpanel7`** wählen, *Upload*. Eigene Startwerte
-(WLAN, IP des Wechselrichters) in `src/config_local.h` – wird von Git ignoriert:
-
-```cpp
-#define WIFI_SSID    "MeinWLAN"
-#define WIFI_PASS    "geheim"
-#define FRONIUS_HOST "192.168.1.60"
-```
-
-## Lizenz
-
-MIT – siehe [LICENSE](LICENSE).
-Verwendete Bibliotheken: [LovyanGFX](https://github.com/lovyan03/LovyanGFX),
-[ArduinoJson](https://github.com/bblanchon/ArduinoJson).
-Schrift: [Inter](https://rsms.me/inter/) (SIL Open Font License).
+- Statistics for day, month, year; optionally with **SD card** also daily histories
+- Strings (MPPT) via Modbus TCP
+- Wallbox (Wattpilot) with its own query
+- Additional Smart Meter integrations
+- More optimization and detail views
