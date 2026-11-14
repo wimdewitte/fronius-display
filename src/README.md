@@ -1,15 +1,24 @@
-# Modular source layout
+# Modular firmware structure
 
-The existing firmware remains the behavioral reference while the refactor is performed incrementally. PlatformIO automatically compiles `.cpp` files under `src/`.
+This project is being migrated from the original single-file Arduino firmware into a modular layout while preserving the original behavior and settings keys.
 
-Planned ownership:
+Current structure:
 
-- `main.cpp`: Arduino entry points only (`setup()` and `loop()`).
-- `app/`: top-level application lifecycle and coordination.
-- `config/`: persisted settings and validation.
-- `fronius/`: API client and Fronius data models.
-- `energy/`: daily energy calculations and persistence.
-- `network/`: Wi-Fi management and OTA updates.
-- `ui/`: display rendering, screens, and touch navigation.
+- src/main.cpp
+  - Arduino entry point (`setup()` / `loop()`) only
+- src/app/
+  - application lifecycle and runtime coordination
+- src/config/
+  - persisted settings and validation
+- src/core/
+  - shared constants and global runtime types
+- src/energy/
+  - power calculations and daily statistics
+- src/fronius/
+  - Fronius API client, JSON helpers and data structures
+- src/network/
+  - Wi-Fi and OTA/update management
+- src/ui/
+  - display state, screen manager, touch and rendering entry points
 
-Keep hardware-independent calculations in `energy/`; keep display and network side effects in their respective modules. Preserve existing Preferences keys and API behavior during extraction. This commit adds the first extracted domain module; subsequent changes can migrate callers module by module without changing the user-visible behavior.
+The original monolithic file remains the reference implementation while the refactor is staged gradually so builds remain stable.
