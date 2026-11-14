@@ -3,8 +3,8 @@
 namespace network {
 
 bool WifiManager::begin(const String& ssid, const String& password, bool ipFixed,
-                       const String& ip, const String& mask, const String& gw,
-                       const String& dns, uint32_t timeoutMs) {
+                        const String& ip, const String& mask, const String& gw,
+                        const String& dns, uint32_t timeoutMs) {
   ssid_ = ssid;
   password_ = password;
 
@@ -20,11 +20,10 @@ bool WifiManager::begin(const String& ssid, const String& password, bool ipFixed
   }
 
   WiFi.begin(ssid_.c_str(), password_.c_str());
-  uint32_t t0 = millis();
-  while (WiFi.status() != WL_CONNECTED && millis() - t0 < timeoutMs) {
+  const uint32_t startedAt = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - startedAt < timeoutMs) {
     delay(250);
   }
-
   return WiFi.status() == WL_CONNECTED;
 }
 
@@ -33,7 +32,7 @@ bool WifiManager::isConnected() const {
 }
 
 int WifiManager::rssi() const {
-  return WiFi.status() == WL_CONNECTED ? WiFi.RSSI() : -999;
+  return isConnected() ? WiFi.RSSI() : -999;
 }
 
 String WifiManager::localIp() const {
