@@ -23,6 +23,4 @@ class Application {
   RuntimeState state_;
 };
 
-extern Application gApp;
-
 }  // namespace app
