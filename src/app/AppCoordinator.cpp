@@ -1,40 +1,30 @@
 #include "AppCoordinator.h"
 
+#include "../config/Settings.h"
+#include "../network/WifiManager.h"
+#include "../ui/ScreenManager.h"
+
 namespace app {
 
 AppCoordinator gApp;
 
 void AppCoordinator::begin() {
-  settings_ = config::gSettings.load();
-  display_.begin();
-  connectWifi();
-  initialized_ = true;
-}
-
-void AppCoordinator::connectWifi() {
-  if (settings_.wifiSsid.length() == 0) return;
-  wifi_.begin(settings_.wifiSsid, settings_.wifiPass, settings_.ipFixed,
-              settings_.ipAddr, settings_.ipMask, settings_.ipGw, settings_.ipDns,
-              20000);
-}
-
-void AppCoordinator::refreshUi() {
-  display_.update();
-}
-
-bool AppCoordinator::runPollCycle() {
-  if (!wifi_.isConnected()) return false;
-  return true;
+  runtime_.initialized = true;
+  runtime_.lastPollMs = millis();
+  runtime_.lastTouchMs = millis();
 }
 
 void AppCoordinator::loop() {
-  if (!initialized_) begin();
+  if (!runtime_.initialized) begin();
+  refresh();
+}
 
-  if (wifi_.isConnected()) {
-    // This is the place where the Fronius polling loop and renderer updates would run.
-  }
+void AppCoordinator::refresh() {
+  // This module is intentionally thin while the rest of the monolith is being extracted.
+}
 
-  refreshUi();
+RuntimeState& AppCoordinator::state() {
+  return runtime_;
 }
 
 }  // namespace app

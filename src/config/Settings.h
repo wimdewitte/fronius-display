@@ -34,6 +34,7 @@ class SettingsStore {
   Settings load();
   bool save(const Settings& settings);
   bool validate(Settings& settings) const;
+  void clear();
 
  private:
   static constexpr const char* kNvsNamespace = "fronidisp";
