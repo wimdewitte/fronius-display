@@ -1,51 +1,53 @@
-#include "WifiManager.h"
+#pragma once
 
-namespace network {
+#include <Arduino.h>
 
-bool WifiManager::begin(const String& ssid, const String& password, bool ipFixed,
-                       const String& ip, const String& mask, const String& gw,
-                       const String& dns, uint32_t timeoutMs) {
-  ssid_ = ssid;
-  password_ = password;
+namespace fronius {
 
-  WiFi.disconnect();
-  delay(100);
+struct FlowSector {
+  bool gen = false;
+  int loc = -1;
+};
 
-  if (ipFixed) {
-    IPAddress ipa, ipMask, ipGw, ipDns;
-    if (ipa.fromString(ip) && ipMask.fromString(mask) && ipGw.fromString(gw)) {
-      if (!ipDns.fromString(dns)) ipDns = ipGw;
-      WiFi.config(ipa, ipGw, ipMask, ipDns);
-    }
-  }
+struct FlowData {
+  double pPv = NAN;
+  double pAkku = NAN;
+  double pGrid = NAN;
+  double pLoad = NAN;
+  bool valid = false;
+  double soc = NAN;
+  bool hasBatt = false;
+  String battMode;
+  double eInvTotal = NAN;
+  double pInv = NAN;
+  int nSec = 0;
+  FlowSector sec[8];
+};
 
-  WiFi.begin(ssid_.c_str(), password_.c_str());
-  uint32_t t0 = millis();
-  while (WiFi.status() != WL_CONNECTED && millis() - t0 < timeoutMs) {
-    delay(250);
-  }
+struct MeterData {
+  double v[3] = {NAN, NAN, NAN};
+  double a[3] = {NAN, NAN, NAN};
+  double p[3] = {NAN, NAN, NAN};
+  double freq = NAN;
+  double eImp = NAN;
+  double eExp = NAN;
+  double eGen = NAN;
+  String model;
+  bool valid = false;
+  bool genValid = false;
+};
 
-  return WiFi.status() == WL_CONNECTED;
-}
+struct StorageData {
+  double capWh = NAN;
+  double designWh = NAN;
+  double tempC = NAN;
+  double voltDc = NAN;
+  String model;
+  bool valid = false;
+};
 
-bool WifiManager::isConnected() const {
-  return WiFi.status() == WL_CONNECTED;
-}
+struct BattInfo {
+  bool valid = false;
+};
 
-int WifiManager::rssi() const {
-  return WiFi.status() == WL_CONNECTED ? WiFi.RSSI() : -999;
-}
-
-String WifiManager::localIp() const {
-  return WiFi.localIP().toString();
-}
-
-String WifiManager::ssid() const {
-  return WiFi.SSID();
-}
-
-void WifiManager::disconnect() {
-  WiFi.disconnect();
-}
-
-}  // namespace network
+}  // namespace fronius
