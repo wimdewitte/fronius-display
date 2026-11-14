@@ -3,21 +3,9 @@
 #include <Arduino.h>
 #include <stdint.h>
 
+#include "ScreenManager.h"
+
 namespace ui {
-
-enum class ScreenId : uint8_t {
-  Flow,
-  Detail,
-  Settings,
-  Error
-};
-
-struct ScreenState {
-  ScreenId current = ScreenId::Flow;
-  uint32_t lastInteractionMs = 0;
-  bool redrawRequired = true;
-  bool dimmed = false;
-};
 
 class DisplayController {
  public:
