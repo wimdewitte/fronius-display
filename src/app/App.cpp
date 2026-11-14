@@ -2,7 +2,8 @@
 
 namespace app {
 
-Application gApp;
+// The active application coordinator is defined in AppCoordinator.cpp.
+// This legacy scaffold intentionally does not define a second `app::gApp`.
 
 void Application::setup() {
   state_.initialized = true;
